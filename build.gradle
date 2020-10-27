@@ -16,6 +16,11 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
+application {
+    mainModule = 'scenebuilder' // name defined in module-info.java
+    mainClass = 'ehu.isad.Main'
+}
+
 javafx {
 
     modules = ['javafx.controls', 'javafx.fxml']

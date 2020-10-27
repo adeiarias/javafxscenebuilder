@@ -1,7 +1,9 @@
 package ehu.isad.controller.db;
 
+import ehu.isad.model.Herrialdea;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,17 +22,19 @@ public class EurobisioaDBKud {
 
   private EurobisioaDBKud(){}
 
-  public ObservableList<String> lortuHerrialdeak(){
+  public ObservableList<Herrialdea> lortuHerrialdeak(){
 
-    ObservableList<String> emaitza = FXCollections.observableArrayList();
+    ObservableList<Herrialdea> emaitza = FXCollections.observableArrayList();
     DBKudeatzaile dbkud = DBKudeatzaile.getInstantzia();
-    String query = "select izena from Herrialde";
+    String query = "select * from Herrialde";
     ResultSet rs = dbkud.execSQL(query);
 
     try {
       while (rs.next()) {
         String izena = rs.getString("izena");
-        emaitza.add(izena);
+        String irudia = rs.getString("bandera");
+        String tv = rs.getString("tv");
+        emaitza.add(new Herrialdea(izena,irudia,tv));
       }
     }catch (SQLException e){
       System.err.println(e);
@@ -38,10 +42,20 @@ public class EurobisioaDBKud {
 
     return emaitza;
   }
-/*
-  public void eguneratu() {
-    DBKudeatzaile dbkud = DBKudeatzaile.getInstantzia();
-    dbkud.execSQL("INSERT INTO properties ('userid', 'key', 'value') values ('5','6','7')");
 
-  }*/
+  public boolean puntuGuztiakEman(String izena){
+    String query = "select sum(puntuak) from Bozkaketa where bozkatuDu ='"+izena+"'";
+    DBKudeatzaile dbkud = DBKudeatzaile.getInstantzia();
+    ResultSet rs = dbkud.execSQL(query);
+    int puntuak = 0;
+    try {
+      while (rs.next()) {
+        puntuak = rs.getInt("sum(puntuak)");
+      }
+    }catch (SQLException e){
+      System.err.println(e);
+    }
+    return puntuak==10;
+  }
+
 }

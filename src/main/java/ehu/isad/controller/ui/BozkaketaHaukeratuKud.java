@@ -2,6 +2,7 @@ package ehu.isad.controller.ui;
 
 import ehu.isad.Main;
 import ehu.isad.controller.db.EurobisioaDBKud;
+import ehu.isad.model.Herrialdea;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,11 +30,17 @@ public class BozkaketaHaukeratuKud {
   private Button okBotoia;
 
   @FXML
-  private ComboBox<String> comboBoxa;
+  private ComboBox<Herrialdea> comboBoxa;
 
   @FXML
   void onClick(ActionEvent event) {
-    main.herriInfoIkusi();
+    //lehenik eta behin ikusiko da ea herrialde horrek puntu guztiak eman dituen ala ez
+    Herrialdea herrialdea = (Herrialdea)comboBoxa.getValue();
+    if(EurobisioaDBKud.getInstantzia().puntuGuztiakEman(herrialdea.getIzena())){//10 puntuak eman dira
+      main.herriInfoIkusi(herrialdea.getIzena());
+    }else{
+      //Bozkaketa scene-ra goaz
+    }
   }
 
   public void setMainApp(Main main) {
@@ -44,7 +51,7 @@ public class BozkaketaHaukeratuKud {
   void initialize() {
     Image logoa = new Image("/eurobisioa_logo.png");
     irudiBalioa.setImage(logoa);
-    ObservableList<String> lista = EurobisioaDBKud.getInstantzia().lortuHerrialdeak();
+    ObservableList<Herrialdea> lista = EurobisioaDBKud.getInstantzia().lortuHerrialdeak();
     comboBoxa.setItems(lista);
     comboBoxa.setEditable(false);
 

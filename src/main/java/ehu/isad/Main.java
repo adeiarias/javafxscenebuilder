@@ -69,7 +69,8 @@ public class Main extends Application {
     stage.show();
   }
 
-  public void herriInfoIkusi(){
+  public void herriInfoIkusi(String izena){
+    herrinfokud.labelakEguneratu(izena);
     stage.setScene(herriInfo);
     stage.show();
   }

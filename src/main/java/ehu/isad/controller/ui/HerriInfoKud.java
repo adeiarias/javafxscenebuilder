@@ -35,7 +35,12 @@ public class HerriInfoKud {
 
         @FXML
         void onClick(ActionEvent event) {
+                main.bozkaketaErakutsi();
+        }
 
+        public void labelakEguneratu(String izena){
+                lblInfo.setText(izena+"ren inguruko informazioa");
+                lblErdikoa.setText(izena+"k jada banatu ditu bere puntuak");
         }
 
         public void setMainApp(Main main) {
