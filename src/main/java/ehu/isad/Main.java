@@ -1,7 +1,8 @@
 package ehu.isad;
 
-import ehu.isad.controller.ui.NagusiaKud;
-import ehu.isad.controller.ui.EzarpenakKud;
+import ehu.isad.controller.ui.BozkaketaHaukeratuKud;
+import ehu.isad.controller.ui.HasieraketaKud;
+import ehu.isad.controller.ui.HerriInfoKud;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,13 +13,17 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-  private Parent nagusiaUI;
-  private Parent ezarpenakUI;
+  private Parent hasieraUI;
+  private Parent bozkaketaUI;
+  private Parent herriInfoUI;
 
   private Stage stage;
 
-  private NagusiaKud nagusiaKud;
-  private EzarpenakKud ezarpenakKud;
+  private HasieraketaKud hasieraketaKud;
+  private BozkaketaHaukeratuKud bozkaketaKud;
+  private HerriInfoKud herrinfokud;
+
+  private Scene hasieraketa,bozkaketa,herriInfo;
 
 
   @Override
@@ -27,22 +32,31 @@ public class Main extends Application {
     stage = primaryStage;
     pantailakKargatu();
 
-    stage.setTitle("Ezarpenak lortu");
-    stage.setScene(new Scene(nagusiaUI, 450, 275));
+    stage.setTitle("EUROBISIOA");
+    stage.setScene(hasieraketa);
     stage.show();
   }
 
   private void pantailakKargatu() throws IOException {
 
-    FXMLLoader loaderKautotu = new FXMLLoader(getClass().getResource("/NagusiaUI.fxml"));
-    nagusiaUI = (Parent) loaderKautotu.load();
-    nagusiaKud = loaderKautotu.getController();
-    nagusiaKud.setMainApp(this);
+    FXMLLoader loaderHasieraketa = new FXMLLoader(getClass().getResource("/Hasieraketa.fxml"));
+    hasieraUI = (Parent) loaderHasieraketa.load();
+    hasieraketaKud = loaderHasieraketa.getController();
+    hasieraketaKud.setMainApp(this);
+    hasieraketa = new Scene(hasieraUI);
 
-    FXMLLoader loaderMain = new FXMLLoader(getClass().getResource("/EzarpenakUI.fxml"));
-    ezarpenakUI = (Parent) loaderMain.load();
-    ezarpenakKud = loaderMain.getController();
-    ezarpenakKud.setMainApp(this);
+    FXMLLoader loaderBozkaketa = new FXMLLoader(getClass().getResource("/BozkaketaAukeratu.fxml"));
+    bozkaketaUI = (Parent) loaderBozkaketa.load();
+    bozkaketaKud = loaderBozkaketa.getController();
+    bozkaketaKud.setMainApp(this);
+    bozkaketa = new Scene(bozkaketaUI);
+
+    FXMLLoader loaderHerriInfo = new FXMLLoader(getClass().getResource("/HerrialdearenInformazioa.fxml"));
+    herriInfoUI = (Parent) loaderHerriInfo.load();
+    herrinfokud = loaderHerriInfo.getController();
+    herrinfokud.setMainApp(this);
+    herriInfo = new Scene(herriInfoUI);
+
   }
 
 
@@ -50,9 +64,13 @@ public class Main extends Application {
     launch(args);
   }
 
-  public void ezarpenakErakutsi() {
-    stage.setScene(new Scene(ezarpenakUI));
+  public void bozkaketaErakutsi() {
+    stage.setScene(bozkaketa);
     stage.show();
-    ezarpenakKud.getEzarpenak();
+  }
+
+  public void herriInfoIkusi(){
+    stage.setScene(herriInfo);
+    stage.show();
   }
 }
